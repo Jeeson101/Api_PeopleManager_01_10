@@ -1,7 +1,7 @@
-﻿@model Person
+﻿@model PersonResult
 
 @{
-    var organizations = (IList<Organization>)ViewBag.Organizations;
+    var organizations = (IList<OrganizationResult>)ViewBag.Organizations;
 }
 
 <div asp-validation-summary="ModelOnly"></div>

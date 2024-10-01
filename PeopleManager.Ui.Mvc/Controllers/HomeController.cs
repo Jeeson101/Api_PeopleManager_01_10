@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using PeopleManager.Ui.Mvc.Models;
 using System.Diagnostics;
-using PeopleManager.Services;
+using PeopleManager.Abstractions;
 
 namespace PeopleManager.Ui.Mvc.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly PersonService _personService;
+        private readonly IPersonService _personService;
 
-        public HomeController(PersonService personService)
+        public HomeController(IPersonService personService)
         {
             _personService = personService;
         }

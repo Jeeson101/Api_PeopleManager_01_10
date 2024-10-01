@@ -1,27 +1,28 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PeopleManager.Model;
-using PeopleManager.Services;
+using PeopleManager.Abstractions;
+using PeopleManager.Dto.Requests;
+using PeopleManager.Dto.Results;
 
 namespace PeopleManager.Ui.Mvc.Controllers
 {
     public class PeopleController : Controller
     {
-        private readonly PersonService _personService;
-        private readonly OrganizationService _organizationService;
+        private readonly IPersonService _personService;
+        private readonly IOrganizationService _organizationService;
 
         public PeopleController(
-            PersonService personService,
-            OrganizationService organizationService)
+            IPersonService personService,
+            IOrganizationService organizationService)
         {
             _personService = personService;
             _organizationService = organizationService;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var people = _personService.Find();
+            var people = await _personService.Find();
 
             return View(people);
         }
@@ -34,48 +35,57 @@ namespace PeopleManager.Ui.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Person person)
+        public IActionResult Create(PersonRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return CreateEditView(person);
+                return CreateEditView(request);
             }
 
-            _personService.Create(person);
+            _personService.Create(request);
 
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Edit([FromRoute]int id)
+        public async Task<IActionResult> Edit([FromRoute]int id)
         {
-            var person = _personService.Get(id);
+            var person = await _personService.Get(id);
 
             if (person is null)
             {
                 return RedirectToAction("Index");
             }
 
-            return CreateEditView(person);
+            var personRequest = new PersonRequest
+            {
+	            FirstName = person.FirstName,
+	            LastName = person.LastName,
+	            Email = person.Email != null ? person.Email : null,
+	            OrganizationId = person.OrganizationId,
+			};
+
+			return CreateEditView(personRequest);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute]int id, [FromForm]Person person)
+        public async Task<IActionResult> Edit([FromRoute]int id, [FromForm]PersonRequest request)
         {
-            if (!ModelState.IsValid)
+
+			if (!ModelState.IsValid)
             {
-                return CreateEditView(person);
+                return CreateEditView(request);
             }
 
-            _personService.Update(id, person);
+            await _personService.Update(id, request);
 
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var person = _personService.Get(id);
+            var person = await _personService.Get(id);
 
             return View(person);
         }
@@ -88,11 +98,11 @@ namespace PeopleManager.Ui.Mvc.Controllers
             return RedirectToAction("Index");
         }
         
-        private IActionResult CreateEditView(Person? person = null)
+        private IActionResult CreateEditView(PersonRequest? request = null)
         {
             var organizations = _organizationService.Find();
             ViewBag.Organizations = organizations;
-            return View(person);
+            return View(request);
         }
     }
 }

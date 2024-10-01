@@ -1,4 +1,4 @@
-﻿@model Person
+﻿@model PersonResult
 
 <tr>
     <td>@Model.FirstName</td>
@@ -10,9 +10,9 @@
         }
     </td>
     <td>
-        @if (Model.Organization is not null)
+        @if (Model.OrganizationName is not null)
         {
-            @Model.Organization.Name
+            @Model.OrganizationName
         }
         else
         {

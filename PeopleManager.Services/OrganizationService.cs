@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PeopleManager.Abstractions;
 using PeopleManager.Core;
 using PeopleManager.Dto.Requests;
 using PeopleManager.Dto.Results;
@@ -6,13 +7,12 @@ using PeopleManager.Model;
 
 namespace PeopleManager.Services
 {
-    public class OrganizationService(PeopleManagerDbContext dbContext)
+    public class OrganizationService(PeopleManagerDbContext dbContext) : IOrganizationService
 	{
         private readonly PeopleManagerDbContext _dbContext = dbContext;
 
-
-        //Find
-        public async Task<IList<OrganizationResult>> Find()
+		//Find
+		public async Task<IList<OrganizationResult>> Find()
         {
             return await _dbContext.Organizations
 	            .Select(o => new OrganizationResult

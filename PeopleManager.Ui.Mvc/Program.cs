@@ -1,12 +1,21 @@
-using Microsoft.EntityFrameworkCore;
-using PeopleManager.Core;
-using PeopleManager.Services;
+using PeopleManager.Abstractions;
+using PeopleManager.Ui.Mvc.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+var apiSettings = new ApiSettings();
+builder.Configuration.GetSection(nameof(ApiSettings)).Bind(apiSettings);
+
+builder.Services.AddHttpClient("PeopleManager", options =>
+{
+	options.BaseAddress = new Uri(apiSettings.BaseAddress);
+});
+
+builder.Services.AddScoped<IPersonService, PersonService>();
+builder.Services.AddScoped<IOrganizationService>();
 
 var app = builder.Build();
 

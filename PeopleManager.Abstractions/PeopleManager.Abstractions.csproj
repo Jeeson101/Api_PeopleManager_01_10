@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PeopleManager.Abstractions\PeopleManager.Abstractions.csproj" />
-    <ProjectReference Include="..\PeopleManager.Core\PeopleManager.Core.csproj" />
+    <ProjectReference Include="..\PeopleManager.Dto\PeopleManager.Dto.csproj" />
   </ItemGroup>
 
 </Project>

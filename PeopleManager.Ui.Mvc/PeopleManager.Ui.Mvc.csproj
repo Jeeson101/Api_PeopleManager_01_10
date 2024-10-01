@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PeopleManager.Services\PeopleManager.Services.csproj" />
+    <ProjectReference Include="..\PeopleManager.Abstractions\PeopleManager.Abstractions.csproj" />
+    <ProjectReference Include="..\PeopleManager.Mvc.Services\PeopleManager.Mvc.Services.csproj" />
   </ItemGroup>
 
 </Project>

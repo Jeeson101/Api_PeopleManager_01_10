@@ -1,23 +1,25 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PeopleManager.Model;
-using PeopleManager.Services;
+using PeopleManager.Abstractions;
+using PeopleManager.Dto.Requests;
+using PeopleManager.Dto.Results;
+
 
 namespace PeopleManager.Ui.Mvc.Controllers
 {
     public class OrganizationsController : Controller
     {
-        private readonly OrganizationService _organizationService;
+        private readonly IOrganizationService _organizationService;
 
-        public OrganizationsController(OrganizationService organizationService)
+        public OrganizationsController(IOrganizationService organizationService)
         {
             _organizationService = organizationService;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var organizations = _organizationService.Find();
+            var organizations = await _organizationService.Find();
             return View(organizations);
         }
 
@@ -29,48 +31,55 @@ namespace PeopleManager.Ui.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Organization organization)
+        public IActionResult Create(OrganizationRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return View(organization);
+                return View(request);
             }
 
-            _organizationService.Create(organization);
+            _organizationService.Create(request);
 
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Edit([FromRoute] int id)
+        public async Task<IActionResult> Edit([FromRoute] int id)
         {
-            var organization = _organizationService.Get(id);
+            var organization = await _organizationService.Get(id);
 
             if (organization is null)
             {
                 return RedirectToAction("Index");
             }
 
-            return View(organization);
+
+			return View(organization);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, [FromForm] Organization organization)
+        public IActionResult Edit([FromRoute] int id, [FromForm] OrganizationResult result)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(organization);
+            var request = new OrganizationRequest
+			{
+				Name = result.Name,
+				Description = result.Description
+			};
+
+			if (!ModelState.IsValid)
+			{
+                return View(result);
             }
 
-            _organizationService.Update(id, organization);
+            _organizationService.Update(id, request);
 
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var organization = _organizationService.Get(id);
+            var organization = await _organizationService.Get(id);
 
             return View(organization);
         }
