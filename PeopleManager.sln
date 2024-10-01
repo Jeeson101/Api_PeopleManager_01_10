@@ -15,6 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeopleManager.Api", "People
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.Dto", "PeopleManager.Dto\PeopleManager.Dto.csproj", "{F92561AB-C817-4939-B4EE-D9DE13455EE7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sdk", "Sdk", "{02E70875-3890-43FE-BD42-4D4A46D52A0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManagar.Sdk", "PeopleManagar.Sdk\PeopleManagar.Sdk.csproj", "{9F146EC7-A7E0-4AB8-ADCD-4AE337A24C05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.Service.Abstractions", "PeopleManager.Sdk.Abstractions\PeopleManager.Service.Abstractions.csproj", "{6110BDFE-E7EE-4E70-A815-C87A65A9C546}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,9 +51,21 @@ Global
 		{F92561AB-C817-4939-B4EE-D9DE13455EE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F92561AB-C817-4939-B4EE-D9DE13455EE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F92561AB-C817-4939-B4EE-D9DE13455EE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F146EC7-A7E0-4AB8-ADCD-4AE337A24C05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F146EC7-A7E0-4AB8-ADCD-4AE337A24C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F146EC7-A7E0-4AB8-ADCD-4AE337A24C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F146EC7-A7E0-4AB8-ADCD-4AE337A24C05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6110BDFE-E7EE-4E70-A815-C87A65A9C546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6110BDFE-E7EE-4E70-A815-C87A65A9C546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6110BDFE-E7EE-4E70-A815-C87A65A9C546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6110BDFE-E7EE-4E70-A815-C87A65A9C546}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9F146EC7-A7E0-4AB8-ADCD-4AE337A24C05} = {02E70875-3890-43FE-BD42-4D4A46D52A0A}
+		{6110BDFE-E7EE-4E70-A815-C87A65A9C546} = {02E70875-3890-43FE-BD42-4D4A46D52A0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6517C9AC-EBB9-4124-A470-26E83326B1D4}

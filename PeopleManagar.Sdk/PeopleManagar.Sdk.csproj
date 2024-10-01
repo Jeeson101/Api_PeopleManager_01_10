@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PeopleManager.Core\PeopleManager.Core.csproj" />
-    <ProjectReference Include="..\PeopleManager.Dto\PeopleManager.Dto.csproj" />
-  </ItemGroup>
-
 </Project>

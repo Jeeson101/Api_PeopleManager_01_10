@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PeopleManager.Core;
+using PeopleManager.Dto.Requests;
+using PeopleManager.Dto.Results;
 using PeopleManager.Model;
 
 namespace PeopleManager.Services
@@ -10,52 +12,74 @@ namespace PeopleManager.Services
 
 
         //Find
-        public async Task<IList<Organization?>> Find()
+        public async Task<IList<OrganizationResult>> Find()
         {
             return await _dbContext.Organizations
+	            .Select(o => new OrganizationResult
+	            {
+                    Id = o.Id,
+					Name = o.Name,
+					Description = o.Description,
+					NumberOfMembers = o.Members.Count
+				})
                 .ToListAsync();
         }
 
         //Get (by id)
-        public async Task<Organization?> Get(int id)
+        public async Task<OrganizationResult?> Get(int id)
         {
             return await _dbContext.Organizations
-                .FirstOrDefaultAsync(p => p.Id == id);
+				.Select(o => new OrganizationResult
+	            {
+		            Id = o.Id,
+					Name = o.Name,
+					Description = o.Description,
+					NumberOfMembers = o.Members.Count
+				})
+				.FirstOrDefaultAsync(o => o.Id == id);
         }
 
         //Create
-        public async Task<Organization?> Create(Organization organization)
+        public async Task<OrganizationResult?> Create(OrganizationRequest request)
         {
-            await _dbContext.Organizations.AddAsync(organization);
+	        var organization = new Organization
+	        {
+		        Name = request.Name,
+		        Description = request.Description
+
+	        };
+
+
+			_dbContext.Organizations.Add(organization);
             await _dbContext.SaveChangesAsync();
 
-            return organization;
+            return await Get(organization.Id);
         }
 
         //Update
-        public async Task<Organization?> Update(int id, Organization organization)
+        public async Task<OrganizationResult?> Update(int id, OrganizationRequest request)
         {
             var dbOrganization = await _dbContext.Organizations
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefaultAsync(o => o.Id == id);
 
             if (dbOrganization is null)
             {
                 return null;
             }
 
-            dbOrganization.Name = organization.Name;
-            dbOrganization.Description = organization.Description;
+            dbOrganization.Name = request.Name;
+            dbOrganization.Description = request.Description;
 
             await _dbContext.SaveChangesAsync();
 
-            return dbOrganization;
+            return await Get(id);
         }
 
         //Delete
         public async Task Delete(int id)
         {
             var organization = await _dbContext.Organizations
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefaultAsync(o => o.Id == id);
 
             if (organization is null)
             {
