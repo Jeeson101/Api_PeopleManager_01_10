@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeopleManager.Model", "Peop
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeopleManager.Services", "PeopleManager.Services\PeopleManager.Services.csproj", "{55080245-65CF-43CE-B87D-3DBE435F2A6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.Api", "PeopleManager.Api\PeopleManager.Api.csproj", "{C4103D2C-EAE1-487D-9773-5F21617A3D4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeopleManager.Api", "PeopleManager.Api\PeopleManager.Api.csproj", "{C4103D2C-EAE1-487D-9773-5F21617A3D4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.Dto", "PeopleManager.Dto\PeopleManager.Dto.csproj", "{F92561AB-C817-4939-B4EE-D9DE13455EE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{C4103D2C-EAE1-487D-9773-5F21617A3D4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4103D2C-EAE1-487D-9773-5F21617A3D4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4103D2C-EAE1-487D-9773-5F21617A3D4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F92561AB-C817-4939-B4EE-D9DE13455EE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F92561AB-C817-4939-B4EE-D9DE13455EE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F92561AB-C817-4939-B4EE-D9DE13455EE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F92561AB-C817-4939-B4EE-D9DE13455EE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

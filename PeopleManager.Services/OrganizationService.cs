@@ -1,45 +1,42 @@
-﻿using PeopleManager.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using PeopleManager.Core;
 using PeopleManager.Model;
 
 namespace PeopleManager.Services
 {
-    public class OrganizationService
-    {
-        private readonly PeopleManagerDbContext _dbContext;
+    public class OrganizationService(PeopleManagerDbContext dbContext)
+	{
+        private readonly PeopleManagerDbContext _dbContext = dbContext;
 
-        public OrganizationService(PeopleManagerDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
 
         //Find
-        public IList<Organization> Find()
+        public async Task<IList<Organization?>> Find()
         {
-            return _dbContext.Organizations
-                .ToList();
+            return await _dbContext.Organizations
+                .ToListAsync();
         }
 
         //Get (by id)
-        public Organization? Get(int id)
+        public async Task<Organization?> Get(int id)
         {
-            return _dbContext.Organizations
-                .FirstOrDefault(p => p.Id == id);
+            return await _dbContext.Organizations
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         //Create
-        public Organization? Create(Organization organization)
+        public async Task<Organization?> Create(Organization organization)
         {
-            _dbContext.Organizations.Add(organization);
-            _dbContext.SaveChanges();
+            await _dbContext.Organizations.AddAsync(organization);
+            await _dbContext.SaveChangesAsync();
 
             return organization;
         }
 
         //Update
-        public Organization? Update(int id, Organization organization)
+        public async Task<Organization?> Update(int id, Organization organization)
         {
-            var dbOrganization = _dbContext.Organizations
-                .FirstOrDefault(p => p.Id == id);
+            var dbOrganization = await _dbContext.Organizations
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (dbOrganization is null)
             {
@@ -49,16 +46,16 @@ namespace PeopleManager.Services
             dbOrganization.Name = organization.Name;
             dbOrganization.Description = organization.Description;
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
 
             return dbOrganization;
         }
 
         //Delete
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var organization = _dbContext.Organizations
-                .FirstOrDefault(p => p.Id == id);
+            var organization = await _dbContext.Organizations
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (organization is null)
             {
@@ -66,7 +63,7 @@ namespace PeopleManager.Services
             }
 
             _dbContext.Organizations.Remove(organization);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
     }

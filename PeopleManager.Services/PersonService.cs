@@ -4,44 +4,43 @@ using PeopleManager.Model;
 
 namespace PeopleManager.Services
 {
-    public class PersonService
-    {
-        private readonly PeopleManagerDbContext _dbContext;
+    public class PersonService(PeopleManagerDbContext dbContext)
+	{
+        private readonly PeopleManagerDbContext _dbContext = dbContext;
 
-        public PersonService(PeopleManagerDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
 
         //Find
-        public IList<Person> Find()
+        public async Task<IList<Person?>> Find()
         {
-            return _dbContext.People
-                .Include(p => p.Organization)
-                .ToList();
-        }
+            var dbPersons = await _dbContext.People
+	            .Include(p => p.Organization)
+	            .ToListAsync();
 
-        //Get (by id)
-        public Person? Get(int id)
+			return dbPersons;
+
+		}
+
+		//Get (by id)
+		public async Task<Person?> Get(int id)
         {
-            return _dbContext.People
-                .FirstOrDefault(p => p.Id == id);
+            return await _dbContext.People
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         //Create
-        public Person? Create(Person person)
+        public async Task<Person?> Create(Person person)
         {
-            _dbContext.People.Add(person);
-            _dbContext.SaveChanges();
+	        await _dbContext.People.AddAsync(person);
+            await _dbContext.SaveChangesAsync();
 
             return person;
         }
 
         //Update
-        public Person? Update(int id, Person person)
+        public async Task<Person?> Update(int id, Person person)
         {
-            var dbPerson = _dbContext.People
-                .FirstOrDefault(p => p.Id == id);
+            var dbPerson = await _dbContext.People
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (dbPerson is null)
             {
@@ -53,16 +52,16 @@ namespace PeopleManager.Services
             dbPerson.Email = person.Email;
             dbPerson.OrganizationId = person.OrganizationId;
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
 
             return dbPerson;
         }
 
         //Delete
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var person = _dbContext.People
-                .FirstOrDefault(p => p.Id == id);
+            var person = await _dbContext.People
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (person is null)
             {
@@ -70,7 +69,7 @@ namespace PeopleManager.Services
             }
 
             _dbContext.People.Remove(person);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
     }
